@@ -1,0 +1,22 @@
+{
+    "name": "uas-dashboard/webcurator",
+    "description": "Web Curator dashboard module for UAS",
+    "type": "uas-dashboard-module",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "UasDashboard\\WebCurator\\": "app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "UasDashboard\\WebCurator\\Providers\\WebCuratorServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.2"
+    }
+}
