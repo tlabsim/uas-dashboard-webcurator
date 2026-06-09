@@ -1,5 +1,9 @@
-document.addEventListener('alpine:init', () => {
-    Alpine.data('mediaWorkspace', (config = {}) => ({
+function registerMediaWorkspace() {
+    if (!window.Alpine) {
+        return;
+    }
+
+    window.Alpine.data('mediaWorkspace', (config = {}) => ({
         routes: config.routes || {},
         context: {},
         folderTree: [],
@@ -2042,4 +2046,18 @@ document.addEventListener('alpine:init', () => {
             this.contextMenu.submenu = null;
         },
     }));
-});
+
+    queueMicrotask(() => {
+        document.querySelectorAll('[x-data]').forEach((element) => {
+            const expression = element.getAttribute('x-data') || '';
+            if (!expression.includes('mediaWorkspace') || element._x_marker) {
+                return;
+            }
+
+            window.Alpine.initTree(element);
+        });
+    });
+}
+
+registerMediaWorkspace();
+document.addEventListener('alpine:init', registerMediaWorkspace);

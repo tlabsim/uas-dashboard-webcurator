@@ -71,7 +71,7 @@ SVG;
     $goUpIcon = <<<'SVG'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m4 10l-.707.707L2.586 10l.707-.707zm17 8a1 1 0 1 1-2 0zM8.293 15.707l-5-5l1.414-1.414l5 5zm-5-6.414l5-5l1.414 1.414l-5 5zM4 9h10v2H4zm17 7v2h-2v-2zm-7-7a7 7 0 0 1 7 7h-2a5 5 0 0 0-5-5z"/></svg>
 SVG;
-    $emptyStateIcon = Vite::asset('resources/assets/web-curator/no_media.png');
+    $emptyStateIcon = asset('vendor/webcurator/no_media.png');
 @endphp
 
 @section('dashboard-content')
@@ -301,8 +301,8 @@ SVG;
                         </button>
                         <div class="wc-media-main-heading" x-text="tab === 'folders' ? (currentFolderName || 'Root Folder') : (currentGallery?.title || 'Galleries')"></div>
                         <div class="flex items-center gap-2" x-show="tab === 'galleries' && currentGallery" x-cloak>
-                            <span class="wc-media-header-badge" :class="currentGallery?.gallery_status === 'Published' ? 'is-success' : 'is-muted'">
-                                <span class="h-4 w-4">{!! $publishIcon !!}</span>
+                            <span class="wc-media-header-badge h-6" :class="currentGallery?.gallery_status === 'Published' ? 'is-success' : 'is-muted'">
+                                <span class="h-4 w-4" x-show="currentGallery?.gallery_status === 'Published'">{!! $publishIcon !!}</span>
                                 <span x-text="currentGallery?.gallery_status || 'Draft'"></span>
                             </span>
                             <span class="wc-media-header-badge is-featured" x-show="currentGallery?.is_featured" x-cloak>
@@ -313,7 +313,7 @@ SVG;
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <button type="button" class="wc-media-mini-button is-strong" x-show="tab === 'galleries' && currentGallery?.gallery_status === 'Draft'" x-cloak @click="setGalleryPublished(currentGallery, true)">
-                            <span class="h-4 w-4">{!! $publishIcon !!}</span>
+                            <span class="h-5 w-5">{!! $publishIcon !!}</span>
                             <span>Publish</span>
                         </button>
                         <button type="button" class="wc-media-mini-button is-strong" @click="openUploadModal()">

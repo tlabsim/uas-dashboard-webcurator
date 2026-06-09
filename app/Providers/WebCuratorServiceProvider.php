@@ -23,9 +23,9 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
         return 'Web Curator';
     }
 
-    public function roleName(): string
+    public function roleNames(): array
     {
-        return 'Web Curator';
+        return config('web_curator.role_names', ['Web Curator']);
     }
 
     public function routePrefix(): string
@@ -43,9 +43,14 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
         return __DIR__ . '/../../routes/web.php';
     }
 
+    public function assetConfigFile(): ?string
+    {
+        return __DIR__ . '/../../config/module_assets.php';
+    }
+
     public function middleware(): array
     {
-        return ['web', 'ims.logged_in_and_role_selected:web_curator'];
+        return ['web', 'ims.logged_in_and_role_selected:' . implode(',', $this->roleNames())];
     }
 
     public function navigation(): array
@@ -148,6 +153,12 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
             View\Components\CategoryBox::class,
             View\Components\SubcategoryBox::class,
         ]);
+
+        // Publish pre-built assets to host's public/vendor/webcurator/
+        // Run: php artisan vendor:publish --tag=webcurator-assets
+        $this->publishes([
+            __DIR__ . '/../../public' => public_path('vendor/webcurator'),
+        ], 'webcurator-assets');
 
         // Share editor configuration with web_curator views
         $primaryEditor = strtolower((string) config('web_curator.editors.primary', 'tiptap'));

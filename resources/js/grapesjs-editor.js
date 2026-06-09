@@ -51,7 +51,7 @@ const buildResponsiveCanvasCss = (palette = getThemePalette()) => `
     --wc-surface-muted: ${palette.surfaceMuted};
     --wc-surface-soft: ${palette.surfaceSoft};
     --wc-text-strong: ${palette.textStrong};
-    --wc-text-body: ${palette.textBody};
+    --wc-text: ${palette.textBody};
     --wc-text-soft: ${palette.textSoft};
     --wc-border-soft: ${palette.borderSoft};
     --wc-primary: ${palette.primary};
@@ -247,7 +247,7 @@ const buildResponsiveCanvasCss = (palette = getThemePalette()) => `
     padding: 1.5rem 1.5rem 1.5rem 2.5rem;
     border-left: 4px solid var(--wc-secondary);
     background: var(--wc-surface);
-    color: var(--wc-text-body);
+    color: var(--wc-text);
   }
 
   .gjs-quote::before {
@@ -416,7 +416,7 @@ const applyCuratedComponentStyles = (component) => {
             padding: '1.5rem 1.5rem 1.5rem 2.5rem',
             'border-left': '4px solid var(--wc-secondary)',
             background: 'var(--wc-surface)',
-            color: 'var(--wc-text-body)',
+            color: 'var(--wc-text)',
         });
     }
 

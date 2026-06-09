@@ -752,7 +752,7 @@ class GrapesVisualEditor {
             return;
         }
 
-        const { initGrapesEditor } = await import('../grapesjs-editor');
+        const { initGrapesEditor } = await import('./grapesjs-editor');
         this.editor = initGrapesEditor({
             container: `#${this.canvas.id}`,
             blockManager: this.blocksTarget?.id ? { appendTo: `#${this.blocksTarget.id}` } : undefined,

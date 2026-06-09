@@ -1,7 +1,11 @@
 @extends('dashboard.layouts.default')
 
 @push('styles')
-    @vite('resources/css/web-curator/styles.css')
+    @moduleVite('web_curator', 'app', 'css')
+@endpush
+
+@push('head-scripts')
+    @moduleVite('web_curator', 'app', 'js')
 @endpush
 
 @section('content')

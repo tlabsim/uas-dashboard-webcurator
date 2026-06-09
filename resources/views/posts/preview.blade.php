@@ -6,7 +6,8 @@
     <title>{{ html_entity_decode($post['post_title'] ?? 'Post Preview') }}</title>
     <!-- Import DM Sans and DM Serif Display font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:wght@400;500;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/css/web-curator/rendered-content.css', 'resources/js/web-curator/rendered-content.js'])
+    @vite('resources/css/app.css')
+    @moduleVite('web_curator', 'rendered-content')
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     @php

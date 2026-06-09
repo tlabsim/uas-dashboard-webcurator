@@ -372,8 +372,9 @@ function getTaggedPostPreviewCss() {
     `;
 }
 
-const renderedContentCssUrl = @js(Vite::asset('resources/css/web-curator/rendered-content.css'));
-const renderedContentJsUrl = @js(Vite::asset('resources/js/web-curator/rendered-content.js'));
+@php($renderedContentAssets = app(\App\Support\ModuleAssets::class)->urls('web_curator', 'rendered-content'))
+const renderedContentCssUrl = @js($renderedContentAssets['css'][0] ?? '');
+const renderedContentJsUrl = @js($renderedContentAssets['js'][0] ?? '');
 
 function buildTaggedPostPreviewDocument(post) {
     const content = decodeTaggedPostHtml(post.post_content || '<p>No content available.</p>');

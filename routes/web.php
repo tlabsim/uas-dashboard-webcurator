@@ -11,7 +11,10 @@ use UasDashboard\WebCurator\Http\Controllers\SettingController;
 use UasDashboard\WebCurator\Http\Controllers\MediaController;
 use UasDashboard\WebCurator\Http\Controllers\GalleryController;
 
-Route::middleware(['web', 'ims.logged_in_and_role_selected:web_curator'])
+Route::middleware([
+        'web',
+        'ims.logged_in_and_role_selected:' . implode(',', config('web_curator.role_names', ['Web Curator'])),
+    ])
     ->prefix('web-curator')
     ->as('dashboard.web_curator.')
     ->group(function () {

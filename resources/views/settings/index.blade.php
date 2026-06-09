@@ -64,7 +64,7 @@
             <div class="card p-0 overflow-hidden {{ $loop->first && $loop->count === 1 ? 'flex flex-col' : '' }}">
                 <!-- Group Header -->
                 <div 
-                    class="card-header m-0 p-4 lg:px-6 cursor-pointer transition-colors"
+                    class="card-header !m-0 p-4 lg:px-6 cursor-pointer transition-colors"
                     @click="toggleGroup('{{ $group }}')"
                 >
                     <div class="flex items-center justify-between">
@@ -150,7 +150,7 @@
 
                     <div class="hidden overflow-x-auto md:block {{ $loop->first && $loop->count === 1 ? 'flex-1' : '' }}">
                     <table class="w-full">
-                        <thead class="bg-[var(--surface)] border-y border-[var(--border-soft)]">
+                        <thead class="bg-[var(--surface-muted)] border-y border-[var(--border-soft)]">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-[var(--text-soft)] w-1/4">Setting Key</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-[var(--text-soft)] w-2/5">Value</th>
@@ -160,7 +160,7 @@
                         </thead>
                         <tbody class="bg-[var(--surface-raised)] divide-y divide-[var(--border-soft)]">
                             @foreach ($settings as $setting)
-                                <tr class="transition-colors hover:bg-[var(--surface)]">
+                                <tr class="transition-colors hover:bg-surface-muted-st">
                                     <td class="px-6 py-4 align-center w-1/4">
                                         <div class="text-sm font-medium text-gray-900">{{ $setting['setting_key'] }}</div>
                                     </td>

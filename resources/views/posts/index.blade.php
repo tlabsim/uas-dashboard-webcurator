@@ -2,7 +2,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-@vite('resources/css/web-curator/rendered-content.css')
+@moduleVite('web_curator', 'rendered-content')
 @endpush
 
 @php

@@ -208,7 +208,7 @@
                                 x-show="hasImageUrl"
                                 x-cloak
                                 @click="clearSelection()"
-                                class="inline-flex h-10 w-10 shrink-0 items-center justify-center border-0 border-l border-[var(--border)] bg-[var(--surface)] px-0 text-[var(--text-soft)] transition-colors hover:bg-[var(--surface-raised)] hover:text-[var(--color-text-primary)]"
+                                class="inline-flex h-10 w-10 shrink-0 items-center justify-center border-0 border-l border-[var(--border)] bg-[var(--surface)] px-0 text-[var(--text-soft)] transition-colors hover:bg-[var(--surface-raised)] hover:text-[var(--color-text-accent)]"
                                 aria-label="Clear featured image"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4"/></svg>
@@ -391,14 +391,12 @@
 ])
 
 @push('styles')
-@vite('resources/css/web-curator/editor-shell.css')
 <style>
     [x-cloak] { display: none !important; }
 </style>
 @endpush
 
 @push('scripts')
-@vite('resources/js/web-curator/editor-shell-app.js')
 <script>
 function decodeHtmlEntities(text) {
     const textarea = document.createElement('textarea');

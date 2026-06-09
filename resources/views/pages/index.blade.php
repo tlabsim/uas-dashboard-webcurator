@@ -94,8 +94,8 @@
         
         <div class="w-full md:w-auto">
             <label class="label-base">Status</label>
-            <x-custom-select
-                class="filter-custom-select"
+            <x-combo-box
+                class=""
                 :options="[
                     ['value' => '', 'label' => 'All Statuses'],
                     ['value' => 'Published', 'label' => 'Published'],
@@ -686,8 +686,9 @@ const getRenderedContentPreviewCss = () => {
 `;
 };
 
-const renderedContentCssUrl = @js(Vite::asset('resources/css/web-curator/rendered-content.css'));
-const renderedContentJsUrl = @js(Vite::asset('resources/js/web-curator/rendered-content.js'));
+@php($renderedContentAssets = app(\App\Support\ModuleAssets::class)->urls('web_curator', 'rendered-content'))
+const renderedContentCssUrl = @js($renderedContentAssets['css'][0] ?? '');
+const renderedContentJsUrl = @js($renderedContentAssets['js'][0] ?? '');
 
 function previewPage(pageId, pageTitle) {
     const page = pagesData.find(p => p.id === pageId);

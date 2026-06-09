@@ -6,7 +6,8 @@
     <title>{{ html_entity_decode($page['page_title'] ?? 'Page Preview') }}</title>
     <!-- Import DM Sans and DM Serif Display font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:wght@400;500;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/css/web-curator/rendered-content.css', 'resources/js/web-curator/rendered-content.js'])
+    @vite('resources/css/app.css')
+    @moduleVite('web_curator', 'rendered-content')
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <div class="mx-auto flex min-h-screen w-full items-start justify-center px-4 py-8 sm:px-6 lg:px-8">

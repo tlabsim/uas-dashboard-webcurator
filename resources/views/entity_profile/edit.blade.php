@@ -384,14 +384,12 @@
 </div>
 
 @push('styles')
-@vite('resources/css/web-curator/editor-shell.css')
 <style>
     [x-cloak] { display: none !important; }
 </style>
 @endpush
 
 @push('scripts')
-@vite('resources/js/web-curator/editor-shell-app.js')
 <script>
 document.addEventListener('alpine:init', () => {
     Alpine.data('profileForm', () => ({
