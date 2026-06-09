@@ -51,7 +51,7 @@
                         }
                     @endphp
                     
-                    <x-custom-select
+                    <x-combo-box
                         :options="collect($categoriesData)->map(function($cat) {
                             $c = is_array($cat) ? (object)$cat : $cat;
                             return ['value' => $c->id ?? '', 'label' => $c->name ?? ''];
@@ -220,7 +220,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="label-base label-required">Status</label>
-                    <x-custom-select
+                    <x-combo-box
                         :options="[
                             ['value' => 'Draft', 'label' => 'Draft'],
                             ['value' => 'Published', 'label' => 'Published']
@@ -346,6 +346,13 @@
                                     })" x-init="updateOptions(field.options.map(opt => ({value: opt, label: opt})))">
                                         <x-custom-select-template />
                                     </div>
+                                    <!-- <x-combo-box
+                                        :options="[]"
+                                        x-init="updateOptions(field.options.map(opt => ({value: opt, label: opt})))"                                       
+                                        :editable="false"          
+                                        ::placeholder="'Select ' + field.label.toLowerCase()"
+                                        ::name="'metadata[' + field.key + ']'"                             
+                                    /> -->
                                 </template>
 
                                 {{-- Editable Select (Combo Box) --}}
@@ -360,6 +367,13 @@
                                         })" x-init="updateOptions(field.options.map(opt => ({value: opt, label: opt})))">
                                             <x-custom-select-template />
                                         </div>
+                                        <!-- <x-combo-box
+                                            :options="[]"
+                                            x-init="updateOptions(field.options.map(opt => ({value: opt, label: opt})))"
+                                            :editable="true"
+                                            ::placeholder="'Select or enter custom ' + field.label.toLowerCase()"
+                                            ::name="'metadata[' + field.key + ']'"
+                                        /> -->
                                         <p class="help-text mt-1">💡 You can select from suggestions or type your own</p>
                                     </div>
                                 </template>

@@ -90,7 +90,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <x-custom-select
+            <x-combo-box
                 :options="[
                     ['value' => '', 'label' => 'All Statuses'],
                     ['value' => 'Published', 'label' => 'Published'],
@@ -104,7 +104,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Group</label>
-            <x-custom-select
+            <x-combo-box
                 :options="collect([['value' => '', 'label' => 'All Groups']])
                     ->merge(collect($groups ?? [])->map(fn($group) => ['value' => (string) $group, 'label' => (string) $group]))
                     ->values()

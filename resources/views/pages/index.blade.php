@@ -95,7 +95,7 @@
         <div class="w-full md:w-auto">
             <label class="label-base">Status</label>
             <x-combo-box
-                class=""
+                class="filter-custom-select"
                 :options="[
                     ['value' => '', 'label' => 'All Statuses'],
                     ['value' => 'Published', 'label' => 'Published'],
@@ -110,7 +110,7 @@
 
         <div class="w-full md:w-auto">
             <label class="label-base">Category</label>
-            <x-custom-select
+            <x-combo-box
                 class="filter-custom-select"
                 :options="collect([['value' => '', 'label' => 'All Categories']])
                     ->merge(collect($categories)->map(function ($cat) {

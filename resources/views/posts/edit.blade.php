@@ -52,7 +52,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="label-base label-required">Category</label>
-                    <x-custom-select
+                    <x-combo-box
                         :options="collect($categories)->map(fn($cat) => ['value' => (string)$cat['id'], 'label' => $cat['name']])->toArray()"
                         :value="old('category_id', $post['category_id'] ?? '')"
                         name="category_id"
@@ -219,7 +219,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="label-base label-required">Status</label>
-                    <x-custom-select
+                    <x-combo-box
                         :options="[
                             ['value' => 'Draft', 'label' => 'Draft'],
                             ['value' => 'Published', 'label' => 'Published'],

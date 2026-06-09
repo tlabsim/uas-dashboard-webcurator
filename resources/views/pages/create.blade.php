@@ -83,7 +83,7 @@
                     <!-- Category -->
                     <div>
                         <label class="label-base">Category</label>
-                        <x-custom-select
+                        <x-combo-box
                             :options="collect([['value' => '', 'label' => 'None']])
                                 ->merge($categories->map(fn($cat) => [
                                     'value' => (string) $cat->id,
@@ -104,7 +104,7 @@
                     <!-- Subcategory -->
                     <div x-show="selectedCategory">
                         <label class="label-base">Subcategory</label>
-                        <x-custom-select
+                        <x-combo-box
                             data-subcategory-select
                             :options="[['value' => '', 'label' => 'None']]"
                             :value="old('page_subcategory', '')"
@@ -249,9 +249,9 @@
                 </p>
             </div>
 
-            <div>
+            <div class="max-w-sm">
                 <label class="label-base label-required">Status</label>
-                <div x-data="customSelect({
+                <!-- <div x-data="customSelect({
                     options: [
                         {value: 'Draft', label: 'Draft'},
                         {value: 'Published', label: 'Published'}
@@ -262,8 +262,16 @@
                     required: true,
                     editable: false
                 })">
-                    <x-custom-select-template />
-                </div>
+                    <x-custom-select-template /> -->
+                <x-combo-box
+                    :options="[
+                        ['value' => 'Draft', 'label' => 'Draft'],
+                        ['value' => 'Published', 'label' => 'Published']
+                    ]"
+                    :value="old('page_status', 'Draft')"
+                    name="page_status"
+                    placeholder="Select status"
+                />
             </div>
         </div>
         </div>

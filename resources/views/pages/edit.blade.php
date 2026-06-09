@@ -89,7 +89,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="label-base">Category</label>
-                        <x-custom-select
+                        <x-combo-box
                             :options="collect([['value' => '', 'label' => 'None']])
                                 ->merge($categories->map(fn($cat) => [
                                     'value' => (string) $cat->id,
@@ -109,7 +109,7 @@
 
                     <div x-show="selectedCategory">
                         <label class="label-base">Subcategory</label>
-                        <x-custom-select
+                        <x-combo-box
                             data-subcategory-select
                             :options="[['value' => '', 'label' => 'None']]"
                             :value="old('page_subcategory', $page['page_subcategory'] ?? '')"
@@ -253,9 +253,9 @@
                     </p>
                 </div>
 
-                <div>
+                <div class="max-w-sm">
                     <label class="label-base label-required">Status</label>
-                    <div x-data="customSelect({
+                    <!-- <div x-data="customSelect({
                         options: [
                             {value: 'Draft', label: 'Draft'},
                             {value: 'Published', label: 'Published'},
@@ -267,8 +267,18 @@
                         required: true,
                         editable: false
                     })">
-                        <x-custom-select-template />
-                    </div>
+                        <x-custom-select-template /> -->
+                    <x-combo-box
+                        :options="[
+                            ['value' => 'Draft', 'label' => 'Draft'],
+                            ['value' => 'Published', 'label' => 'Published'],
+                            ['value' => 'Withdrawn', 'label' => 'Withdrawn'],
+                        ]"
+                        placeholder="Select status"
+                        name="page_status"
+                        :value="old('page_status', $page['page_status'] ?? '')"
+                        required
+                    />
                 </div>
             </div>
         </div>

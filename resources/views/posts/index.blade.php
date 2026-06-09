@@ -179,7 +179,7 @@
         
         <div class="w-full md:w-auto md:flex-1 lg:min-w-[150px]">
             <label class="label-base">Status</label>
-            <x-custom-select
+            <x-combo-box
                 class="filter-custom-select"
                 :options="[
                     ['value' => '', 'label' => 'All Statuses'],
