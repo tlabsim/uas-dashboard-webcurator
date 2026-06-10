@@ -95,7 +95,6 @@
         <div class="w-full md:w-auto">
             <label class="label-base">Status</label>
             <x-combo-box
-                class="filter-custom-select"
                 :options="[
                     ['value' => '', 'label' => 'All Statuses'],
                     ['value' => 'Published', 'label' => 'Published'],
@@ -111,7 +110,6 @@
         <div class="w-full md:w-auto">
             <label class="label-base">Category</label>
             <x-combo-box
-                class="filter-custom-select"
                 :options="collect([['value' => '', 'label' => 'All Categories']])
                     ->merge(collect($categories)->map(function ($cat) {
                         return [
@@ -221,21 +219,22 @@
                                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect fill=%27%23e5e7eb%27 width=%27100%27 height=%27100%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 fill=%27%239ca3af%27 font-size=%2714%27 text-anchor=%27middle%27 dy=%27.3em%27%3ENo Image%3C/text%3E%3C/svg%3E'">
                         @else
                             <div class="flex h-14 w-14 items-center justify-center rounded-md border border-[var(--border-soft)] bg-[var(--surface)]">
-                                <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
+                                </svg> -->
+                                <svg class="h-8 w-8" viewBox="0 0 40 32" fill="rgba(100, 115, 142, 0.4)"><g><path d="M10.459 15.294c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5m0-9c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4"/><path d="M40 30.5v-29c0-.827-.673-1.5-1.5-1.5h-37C.673 0 0 .673 0 1.5v29c0 .827.673 1.5 1.5 1.5h37c.827 0 1.5-.673 1.5-1.5m-39 0v-29a.5.5 0 0 1 .5-.5h37a.5.5 0 0 1 .5.5v29a.5.5 0 0 1-.5.5h-37a.5.5 0 0 1-.5-.5"/><path d="M27.73 11.086a1.375 1.375 0 0 0-1.938.003L14.646 22.235a.37.37 0 0 1-.519.008l-2.583-2.429a1.37 1.37 0 0 0-1.912.03l-6.986 6.99a.5.5 0 0 0 .708.708l6.986-6.989a.373.373 0 0 1 .52-.008l2.583 2.428a1.365 1.365 0 0 0 1.911-.029l11.145-11.146a.37.37 0 0 1 .526-.001l9.622 9.566a.5.5 0 1 0 .705-.709z"/></g></svg>
                             </div>
                         @endif
                     </div>
                     <div class="min-w-0 flex-1">
                         <div class="mb-1 flex flex-wrap items-center gap-2">
                             @if(!empty($page['is_menu']) && $page['is_menu'])
-                                <span class="inline-flex items-center rounded-lg bg-blue-100 px-2 py-0.5 text-[11px] font-medium text-blue-800">MENU</span>
+                                <span class="inline-flex items-center rounded-lg bg-blue-100 px-2 h-6 text-[11px] font-medium text-blue-800">MENU</span>
                             @endif
-                            <span class="inline-flex items-center rounded-lg bg-[var(--surface)] px-2 py-0.5 text-[11px] font-medium text-[var(--text-soft)] border border-[var(--border-soft)]">
+                            <span class="inline-flex items-center rounded-lg bg-[var(--surface)] px-2 h-6 text-[11px] font-medium text-[var(--text-soft)] border border-[var(--border-soft)]">
                                 {{ $categoryName }}
                             </span>
-                            <span class="badge-tint {{ $statusBadgeClass }} text-[11px]">
+                            <span class="badge-tint {{ $statusBadgeClass }} h-6 text-[11px]">
                                 {{ $page['page_status'] }}
                             </span>
                         </div>
@@ -378,9 +377,10 @@
                                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect fill=%27%23e5e7eb%27 width=%27100%27 height=%27100%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 fill=%27%239ca3af%27 font-size=%2714%27 text-anchor=%27middle%27 dy=%27.3em%27%3ENo Image%3C/text%3E%3C/svg%3E'">
                                 @else
                                     <div class="w-16 h-16 shrink-0 bg-gray-100 rounded-md border border-gray-200 flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <!-- <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                        </svg>
+                                        </svg> -->
+                                        <svg class="h-8 w-8" viewBox="0 0 40 32" fill="rgba(100, 115, 142, 0.4)"><g><path d="M10.459 15.294c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5m0-9c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4"/><path d="M40 30.5v-29c0-.827-.673-1.5-1.5-1.5h-37C.673 0 0 .673 0 1.5v29c0 .827.673 1.5 1.5 1.5h37c.827 0 1.5-.673 1.5-1.5m-39 0v-29a.5.5 0 0 1 .5-.5h37a.5.5 0 0 1 .5.5v29a.5.5 0 0 1-.5.5h-37a.5.5 0 0 1-.5-.5"/><path d="M27.73 11.086a1.375 1.375 0 0 0-1.938.003L14.646 22.235a.37.37 0 0 1-.519.008l-2.583-2.429a1.37 1.37 0 0 0-1.912.03l-6.986 6.99a.5.5 0 0 0 .708.708l6.986-6.989a.373.373 0 0 1 .52-.008l2.583 2.428a1.365 1.365 0 0 0 1.911-.029l11.145-11.146a.37.37 0 0 1 .526-.001l9.622 9.566a.5.5 0 1 0 .705-.709z"/></g></svg>                                        
                                     </div>
                                 @endif
                             </td>
