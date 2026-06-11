@@ -180,9 +180,10 @@
                             </div>
                             @else
                             <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded" style="background: var(--surface-muted);">
-                                <svg class="w-8 h-8" style="color: var(--text-soft);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- <svg class="w-8 h-8" style="color: var(--text-soft);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
+                                </svg> -->
+                                <svg class="h-8 w-8" viewBox="0 0 40 32" fill="rgba(100, 115, 142, 0.4)"><g><path d="M10.459 15.294c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5m0-9c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4"/><path d="M40 30.5v-29c0-.827-.673-1.5-1.5-1.5h-37C.673 0 0 .673 0 1.5v29c0 .827.673 1.5 1.5 1.5h37c.827 0 1.5-.673 1.5-1.5m-39 0v-29a.5.5 0 0 1 .5-.5h37a.5.5 0 0 1 .5.5v29a.5.5 0 0 1-.5.5h-37a.5.5 0 0 1-.5-.5"/><path d="M27.73 11.086a1.375 1.375 0 0 0-1.938.003L14.646 22.235a.37.37 0 0 1-.519.008l-2.583-2.429a1.37 1.37 0 0 0-1.912.03l-6.986 6.99a.5.5 0 0 0 .708.708l6.986-6.989a.373.373 0 0 1 .52-.008l2.583 2.428a1.365 1.365 0 0 0 1.911-.029l11.145-11.146a.37.37 0 0 1 .526-.001l9.622 9.566a.5.5 0 1 0 .705-.709z"/></g></svg>
                             </div>
                             @endif
                             <div class="flex-1 min-w-0">

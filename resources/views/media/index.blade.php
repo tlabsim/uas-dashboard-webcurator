@@ -70,8 +70,10 @@ SVG;
 SVG;
     $goUpIcon = <<<'SVG'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m4 10l-.707.707L2.586 10l.707-.707zm17 8a1 1 0 1 1-2 0zM8.293 15.707l-5-5l1.414-1.414l5 5zm-5-6.414l5-5l1.414 1.414l-5 5zM4 9h10v2H4zm17 7v2h-2v-2zm-7-7a7 7 0 0 1 7 7h-2a5 5 0 0 0-5-5z"/></svg>
+SVG;    
+    $emptyStateIcon = <<<'SVG'
+<svg width="4.5rem" height="4.5rem" viewBox="0 0 40 32" fill="rgba(100, 115, 142, 0.4)"><g><path d="M10.459 15.294c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5m0-9c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4"/><path d="M40 30.5v-29c0-.827-.673-1.5-1.5-1.5h-37C.673 0 0 .673 0 1.5v29c0 .827.673 1.5 1.5 1.5h37c.827 0 1.5-.673 1.5-1.5m-39 0v-29a.5.5 0 0 1 .5-.5h37a.5.5 0 0 1 .5.5v29a.5.5 0 0 1-.5.5h-37a.5.5 0 0 1-.5-.5"/><path d="M27.73 11.086a1.375 1.375 0 0 0-1.938.003L14.646 22.235a.37.37 0 0 1-.519.008l-2.583-2.429a1.37 1.37 0 0 0-1.912.03l-6.986 6.99a.5.5 0 0 0 .708.708l6.986-6.989a.373.373 0 0 1 .52-.008l2.583 2.428a1.365 1.365 0 0 0 1.911-.029l11.145-11.146a.37.37 0 0 1 .526-.001l9.622 9.566a.5.5 0 1 0 .705-.709z"/></g></svg>
 SVG;
-    $emptyStateIcon = asset('vendor/webcurator/no_media.png');
 @endphp
 
 @section('dashboard-content')
@@ -237,7 +239,8 @@ SVG;
 
                     <div x-show="tab === 'galleries'" x-cloak>
                         <div class="wc-media-sidebar-empty" x-show="!hasGalleries && !creatingGallery" x-cloak>
-                            <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art">
+                            <!-- <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art"> -->
+                            <div class="wc-media-empty-art">{!! $emptyStateIcon !!}</div>
                             <p>No galleries yet</p>
                         </div>
 
@@ -458,18 +461,21 @@ SVG;
                     </div>
 
                     <div x-show="!loadingPane && showNoGalleryState" x-cloak class="wc-media-empty">
-                        <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art">
+                        <!-- <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art"> -->
+                            <div class="wc-media-empty-art">{!! $emptyStateIcon !!}</div>
                         <p>No galleries yet</p>
                         <button type="button" class="wc-media-mini-button is-strong" @click="startCreateGallery()">Add a gallery</button>
                     </div>
 
                     <div x-show="showFilterEmptyState" x-cloak class="wc-media-empty">
-                        <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art">
+                        <!-- <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art"> -->
+                        <div class="wc-media-empty-art">{!! $emptyStateIcon !!}</div>
                         <p>No media matches your search or filter criteria</p>
                     </div>
 
                     <div x-show="!loadingPane && !showNoGalleryState && !showFilterEmptyState && filteredItems().length === 0 && currentSubfolders().length === 0" x-cloak class="wc-media-empty">
-                        <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art">
+                        <!-- <img src="{{ $emptyStateIcon }}" alt="" class="wc-media-empty-art"> -->
+                        <div class="wc-media-empty-art">{!! $emptyStateIcon !!}</div>
                         <p x-text="tab === 'galleries' ? 'No media in this gallery' : 'No items found'"></p>
                     </div>
 
