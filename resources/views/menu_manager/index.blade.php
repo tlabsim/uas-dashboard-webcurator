@@ -552,76 +552,101 @@
                 
                 // Computed property for complete menu items including static pages
                 get menuItems() {
-                    // Start with category-based menu items
                     let items = this.categories
                         .filter(cat => cat.is_menu)
                         .map(cat => ({
-                            text: cat.menu_text || cat.category_name,
+                            text: (cat.menu_text || cat.category_name || '').trim(),
                             url: cat.link_url || '#',
                             type: 'category',
-                            menu_order: cat.menu_order || 999,
+                            menu_order: Number.isFinite(Number(cat.menu_order)) ? Number(cat.menu_order) : 999,
                             id: cat.id,
                             submenu: cat.subcategories
                                 .filter(sub => sub.is_menu)
                                 .map(sub => ({
-                                    text: sub.menu_text || sub.subcategory_name,
+                                    text: (sub.menu_text || sub.subcategory_name || '').trim(),
                                     url: sub.link_url || '#',
                                     type: 'subcategory',
-                                    menu_order: sub.menu_order || 999
+                                    menu_order: Number.isFinite(Number(sub.menu_order)) ? Number(sub.menu_order) : 999,
+                                    id: sub.id,
+                                    submenu: []
                                 }))
+                                .sort((a, b) => this.compareMenuNodes(a, b))
                         }));
                     
-                    // Add static pages to menu if includeStaticPages is true
                     if (this.includeStaticPages && this.staticPages) {
-                        // Group static pages by category and subcategory
                         this.staticPages.forEach(page => {
                             const pageItem = {
                                 text: page.menu_text || page.page_title,
                                 url: '/' + page.page_slug,
                                 type: 'static_page',
-                                menu_order: page.menu_order || 999,
+                                menu_order: Number.isFinite(Number(page.menu_order)) ? Number(page.menu_order) : 999,
                                 edit_url: page.edit_url || null,
+                                id: page.id,
+                                submenu: [],
                             };
                             
-                            // If page belongs to a subcategory
                             if (page.page_subcategory) {
-                                const parentCategory = items.find(item => 
-                                    item.submenu && item.submenu.some(sub => 
-                                        sub.type === 'subcategory' && 
-                                        this.categories.find(cat => 
-                                            cat.subcategories.some(s => s.id === page.page_subcategory)
-                                        )
-                                    )
-                                );
-                                
-                                if (parentCategory) {
-                                    parentCategory.submenu.push(pageItem);
-                                } else {
-                                    // If no parent found, add as top-level item
-                                    items.push(pageItem);
+                                let attachedToSubcategory = false;
+
+                                for (const item of items) {
+                                    const parentSubcategory = (item.submenu || []).find(sub => Number(sub.id) === Number(page.page_subcategory));
+                                    if (parentSubcategory) {
+                                        parentSubcategory.submenu = parentSubcategory.submenu || [];
+                                        parentSubcategory.submenu.push(pageItem);
+                                        attachedToSubcategory = true;
+                                        break;
+                                    }
+                                }
+
+                                if (attachedToSubcategory) {
+                                    return;
                                 }
                             }
-                            // If page belongs to a category (but not subcategory)
-                            else if (page.page_category) {
-                                const parentCategory = items.find(item => 
-                                    item.type === 'category' && item.id === page.page_category
-                                );
-                                
+
+                            if (page.page_category) {
+                                const parentCategory = items.find(item => Number(item.id) === Number(page.page_category));
+
                                 if (parentCategory) {
+                                    parentCategory.submenu = parentCategory.submenu || [];
                                     parentCategory.submenu.push(pageItem);
-                                } else {
-                                    // If no parent found, add as top-level item
-                                    items.push(pageItem);
+                                    return;
                                 }
                             }
-                            // Top-level static page menu
-                            else {
-                                items.push(pageItem);
-                            }
+
+                            items.push(pageItem);
                         });
                     }
-                    
-                    return items;
+
+                    items.forEach(item => {
+                        if (Array.isArray(item.submenu)) {
+                            item.submenu.sort((a, b) => this.compareMenuNodes(a, b));
+                            item.submenu.forEach(subitem => {
+                                if (Array.isArray(subitem.submenu)) {
+                                    subitem.submenu.sort((a, b) => this.compareMenuNodes(a, b));
+                                }
+                            });
+                        }
+                    });
+
+                    return items.sort((a, b) => this.compareMenuNodes(a, b));
+                },
+
+                compareMenuNodes(a, b) {
+                    const leftOrder = Number.isFinite(Number(a?.menu_order)) ? Number(a.menu_order) : 999;
+                    const rightOrder = Number.isFinite(Number(b?.menu_order)) ? Number(b.menu_order) : 999;
+
+                    if (leftOrder !== rightOrder) {
+                        return leftOrder - rightOrder;
+                    }
+
+                    const leftTypeWeight = a?.type === 'category' ? 0 : 1;
+                    const rightTypeWeight = b?.type === 'category' ? 0 : 1;
+
+                    if (leftTypeWeight !== rightTypeWeight) {
+                        return leftTypeWeight - rightTypeWeight;
+                    }
+
+                    return String(a?.text || '').localeCompare(String(b?.text || ''));
                 },
                 
                 init() {
@@ -1223,8 +1248,8 @@
                         if (data.data && Array.isArray(data.data)) {
                             data.data.forEach((savedCat, index) => {
                                 if (this.categories[index]) {
-                                    if (savedCat.category && savedCat.category.id) {
-                                        this.categories[index].id = savedCat.category.id;
+                                    if (savedCat.id) {
+                                        this.categories[index].id = savedCat.id;
                                         delete this.categories[index].temp_id;
                                     }
 
