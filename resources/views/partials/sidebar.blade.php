@@ -61,6 +61,12 @@
             'icon' => 'entity-profile',
         ],
         [
+            'label' => 'Website Appearance',
+            'route' => 'dashboard.web_curator.website_appearance.edit',
+            'active' => ['dashboard.web_curator.website_appearance.*'],
+            'icon' => 'website-appearance',
+        ],
+        [
             'label' => 'Entity Settings',
             'route' => 'dashboard.web_curator.settings.index',
             'active' => ['dashboard.web_curator.settings.*'],

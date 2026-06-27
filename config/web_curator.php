@@ -32,6 +32,30 @@ return [
 
     'entity_web_base_url' => env('WEB_CURATOR_ENTITY_WEB_BASE_URL', 'web.nstu.ac.bd'),
 
+    'website_templates' => [
+        [
+            'key' => 'department-classic',
+            'label' => 'Department Classic',
+            'description' => 'Content-first entity template with hero, updates, static pages, and faculty directory support.',
+            'entity_types' => ['department', 'academic department', 'faculty', 'institute'],
+        ],
+    ],
+
+    'website_font_options' => [
+        'sans' => [
+            ['key' => 'source-sans-3', 'label' => 'Source Sans 3', 'family' => "'Source Sans 3', ui-sans-serif, system-ui, sans-serif"],
+            ['key' => 'inter', 'label' => 'Inter', 'family' => "'Inter', ui-sans-serif, system-ui, sans-serif"],
+            ['key' => 'instrument-sans', 'label' => 'Instrument Sans', 'family' => "'Instrument Sans', ui-sans-serif, system-ui, sans-serif"],
+            ['key' => 'nunito-sans', 'label' => 'Nunito Sans', 'family' => "'Nunito Sans', ui-sans-serif, system-ui, sans-serif"],
+        ],
+        'serif' => [
+            ['key' => 'source-serif-4', 'label' => 'Source Serif 4', 'family' => "'Source Serif 4', ui-serif, Georgia, serif"],
+            ['key' => 'merriweather', 'label' => 'Merriweather', 'family' => "'Merriweather', ui-serif, Georgia, serif"],
+            ['key' => 'libre-baskerville', 'label' => 'Libre Baskerville', 'family' => "'Libre Baskerville', ui-serif, Georgia, serif"],
+            ['key' => 'bitter', 'label' => 'Bitter', 'family' => "'Bitter', ui-serif, Georgia, serif"],
+        ],
+    ],
+
     'editors' => [
         /*
         |--------------------------------------------------------------------------

@@ -21,7 +21,7 @@ class SettingController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->get(config('web-api.api_base_url') . '/entity/settings', [
+            ])->get(config('web-api.api_base_url') . '/editor/entity/settings', [
                 'entity_id' => $entityId,
             ]);
 
@@ -74,7 +74,7 @@ class SettingController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->post(config('web-api.api_base_url') . '/entity/settings/create', array_merge($validated, [
+            ])->post(config('web-api.api_base_url') . '/editor/entity/settings/create', array_merge($validated, [
                 'entity_id' => $entityId,
             ]));
 
@@ -120,7 +120,7 @@ class SettingController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->put(config('web-api.api_base_url') . '/entity/settings/' . $validated['setting_id'], array_merge($validated, [
+            ])->put(config('web-api.api_base_url') . '/editor/entity/settings/' . $validated['setting_id'], array_merge($validated, [
                 'entity_id' => $entityId,
             ]));
 
@@ -163,7 +163,7 @@ class SettingController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->delete(config('web-api.api_base_url') . '/entity/settings/' . $validated['setting_id'], [
+            ])->delete(config('web-api.api_base_url') . '/editor/entity/settings/' . $validated['setting_id'], [
                 'entity_id' => $entityId,
             ]);
 
@@ -204,7 +204,7 @@ class SettingController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->put(config('web-api.api_base_url') . '/entity/settings', [
+            ])->put(config('web-api.api_base_url') . '/editor/entity/settings', [
                 'entity_id' => $entityId,
                 'settings' => $settings,
             ]);

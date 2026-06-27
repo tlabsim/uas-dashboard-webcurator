@@ -22,7 +22,7 @@ class PageController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->get(config('web-api.api_base_url') . '/pages', [
+            ])->get(config('web-api.api_base_url') . '/editor/pages', [
                 'entity_id' => $entityId,
             ]);
 
@@ -171,7 +171,7 @@ class PageController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->post(config('web-api.api_base_url') . '/pages', array_merge($validated, [
+        ])->post(config('web-api.api_base_url') . '/editor/pages', array_merge($validated, [
             'entity_id' => $entityId,
         ]));
 
@@ -196,7 +196,7 @@ class PageController extends Controller
         $pagesResponse = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/pages', [
+        ])->get(config('web-api.api_base_url') . '/editor/pages', [
             'entity_id' => $entityId,
         ]);
 
@@ -238,7 +238,7 @@ class PageController extends Controller
         $pagesResponse = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/pages', [
+        ])->get(config('web-api.api_base_url') . '/editor/pages', [
             'entity_id' => $entityId,
         ]);
 
@@ -285,7 +285,7 @@ class PageController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->put(config('web-api.api_base_url') . '/pages/' . $id, $validated);
+        ])->put(config('web-api.api_base_url') . '/editor/pages/' . $id, $validated);
 
         if ($response->successful()) {
             \Log::info('Page updated successfully', ['page_id' => $id]);
@@ -324,7 +324,7 @@ class PageController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->delete(config('web-api.api_base_url') . '/pages/' . $id);
+        ])->delete(config('web-api.api_base_url') . '/editor/pages/' . $id);
 
         if ($response->successful()) {
             return redirect()->route('dashboard.web_curator.pages.index')

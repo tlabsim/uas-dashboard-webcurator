@@ -77,7 +77,7 @@ class MenuController extends Controller
             });
 
             // Fetch static pages that are marked as menu items
-            $pagesRequestUrl = config('web-api.api_base_url') . '/pages';
+            $pagesRequestUrl = config('web-api.api_base_url') . '/editor/pages';
             $pagesResponse = \Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),

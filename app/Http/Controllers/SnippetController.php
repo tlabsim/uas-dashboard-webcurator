@@ -21,7 +21,7 @@ class SnippetController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->get(config('web-api.api_base_url') . '/snippets', [
+            ])->get(config('web-api.api_base_url') . '/editor/snippets', [
                 'entity_id' => $entityId,
             ]);
 
@@ -117,7 +117,7 @@ class SnippetController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->post(config('web-api.api_base_url') . '/snippets', array_merge($validated, [
+        ])->post(config('web-api.api_base_url') . '/editor/snippets', array_merge($validated, [
             'entity_id' => $entityId,
         ]));
 
@@ -141,7 +141,7 @@ class SnippetController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/snippets', [
+        ])->get(config('web-api.api_base_url') . '/editor/snippets', [
             'entity_id' => $entityId,
         ]);
 
@@ -176,7 +176,7 @@ class SnippetController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->put(config('web-api.api_base_url') . '/snippets/' . $id, $validated);
+        ])->put(config('web-api.api_base_url') . '/editor/snippets/' . $id, $validated);
 
         if ($response->successful()) {
             if ($request->expectsJson() || $request->ajax()) {
@@ -205,7 +205,7 @@ class SnippetController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->delete(config('web-api.api_base_url') . '/snippets/' . $id);
+        ])->delete(config('web-api.api_base_url') . '/editor/snippets/' . $id);
 
         if ($response->successful()) {
             return redirect()->route('dashboard.web_curator.snippets.index')

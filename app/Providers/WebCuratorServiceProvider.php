@@ -4,8 +4,10 @@ namespace UasDashboard\WebCurator\Providers;
 
 use App\Modules\DashboardModule;
 use App\Modules\ModuleRegistry;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
+use UasDashboard\WebCurator\View\Components\CategoryBox;
+use UasDashboard\WebCurator\View\Components\SubcategoryBox;
 
 class WebCuratorServiceProvider extends ServiceProvider implements DashboardModule
 {
@@ -117,6 +119,12 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
                 'icon' => 'entity-profile',
             ],
             [
+                'label' => 'Website Appearance',
+                'route' => 'dashboard.web_curator.website_appearance.edit',
+                'active' => ['dashboard.web_curator.website_appearance.*'],
+                'icon' => 'website-appearance',
+            ],
+            [
                 'label' => 'Entity Settings',
                 'route' => 'dashboard.web_curator.settings.index',
                 'active' => ['dashboard.web_curator.settings.*'],
@@ -150,8 +158,8 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
 
         // Register Blade components
         $this->loadViewComponentsAs('web-curator', [
-            View\Components\CategoryBox::class,
-            View\Components\SubcategoryBox::class,
+            CategoryBox::class,
+            SubcategoryBox::class,
         ]);
 
         // Publish pre-built assets to host's public/vendor/webcurator/
@@ -164,7 +172,7 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
         $primaryEditor = strtolower((string) config('web_curator.editors.primary', 'tiptap'));
         $visualEditor = strtolower((string) config('web_curator.editors.visual', 'grapesjs'));
 
-        View::share('webCuratorEditorConfig', [
+        ViewFacade::share('webCuratorEditorConfig', [
             'primary' => in_array($primaryEditor, self::PRIMARY_EDITORS, true) ? $primaryEditor : 'tiptap',
             'visual' => in_array($visualEditor, self::VISUAL_EDITORS, true) ? $visualEditor : 'grapesjs',
         ]);

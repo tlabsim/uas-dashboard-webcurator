@@ -8,6 +8,7 @@ use UasDashboard\WebCurator\Http\Controllers\SnippetController;
 use UasDashboard\WebCurator\Http\Controllers\MenuController;
 use UasDashboard\WebCurator\Http\Controllers\ProfileController;
 use UasDashboard\WebCurator\Http\Controllers\SettingController;
+use UasDashboard\WebCurator\Http\Controllers\WebsiteAppearanceController;
 use UasDashboard\WebCurator\Http\Controllers\MediaController;
 use UasDashboard\WebCurator\Http\Controllers\GalleryController;
 
@@ -87,6 +88,10 @@ Route::middleware([
         Route::put('/entity_profile', [ProfileController::class, 'update'])->name('entity_profile.update');
         Route::post('/entity_profile/search-personnel', [ProfileController::class, 'searchPersonnel'])->name('entity_profile.search_personnel');
         Route::get('/entity_profile/personnel/{personnelId}/roles', [ProfileController::class, 'getPersonnelRoles'])->name('entity_profile.personnel_roles');
+
+        // Website Appearance
+        Route::get('/website-appearance', [WebsiteAppearanceController::class, 'edit'])->name('website_appearance.edit');
+        Route::put('/website-appearance', [WebsiteAppearanceController::class, 'update'])->name('website_appearance.update');
 
         // Entity Settings
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');

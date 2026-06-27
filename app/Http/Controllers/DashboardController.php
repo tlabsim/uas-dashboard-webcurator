@@ -63,7 +63,7 @@ class DashboardController extends Controller
 
             // Get all pages
             $pagesResponse = Http::withHeaders($headers)
-                ->get(config('web-api.api_base_url') . '/pages', [
+                ->get(config('web-api.api_base_url') . '/editor/pages', [
                     'entity_id' => $entityId,
                 ]);
 
@@ -74,7 +74,7 @@ class DashboardController extends Controller
             // Get all posts with detailed information
             // Add query parameters for better data retrieval
             $postsResponse = Http::withHeaders($headers)
-                ->get(config('web-api.api_base_url') . '/posts', [
+                ->get(config('web-api.api_base_url') . '/editor/posts', [
                     'entity_id' => $entityId,
                     'per_page' => 100,  // Get more posts for statistics
                     'sort' => 'updated_at',
@@ -124,7 +124,7 @@ class DashboardController extends Controller
 
             // Get snippets
             $snippetsResponse = Http::withHeaders($headers)
-                ->get(config('web-api.api_base_url') . '/snippets', [
+                ->get(config('web-api.api_base_url') . '/editor/snippets', [
                     'entity_id' => $entityId,
                 ]);
 

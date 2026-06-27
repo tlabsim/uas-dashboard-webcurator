@@ -60,7 +60,7 @@ class PostController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->get(config('web-api.api_base_url') . '/posts', $queryParams);
+            ])->get(config('web-api.api_base_url') . '/editor/posts', $queryParams);
 
             if (!$response->successful()) {
                 return redirect()->back()->with('error', 'Failed to load posts. Please try again.');
@@ -144,7 +144,7 @@ class PostController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/posts/' . $id);
+        ])->get(config('web-api.api_base_url') . '/editor/posts/' . $id);
 
         if (!$response->successful()) {
             abort($response->status() === 404 ? 404 : 502, 'Failed to load post preview.');
@@ -244,7 +244,7 @@ class PostController extends Controller
         \Log::info('Full data being sent to API:', ['data' => $validated]);
 
         $response = $this->buildMultipartApiRequest($request)
-            ->post(config('web-api.api_base_url') . '/posts', $this->buildPostPayload($validated));
+            ->post(config('web-api.api_base_url') . '/editor/posts', $this->buildPostPayload($validated));
 
         if ($response->successful()) {
             $postId = $response->json()['data']['id'] ?? null;
@@ -293,7 +293,7 @@ class PostController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-            ])->get(config('web-api.api_base_url') . '/posts', [
+            ])->get(config('web-api.api_base_url') . '/editor/posts', [
                 'entity_id' => $entityId,
                 'per_page' => 100,
                 'sort' => 'updated_at',
@@ -438,7 +438,7 @@ class PostController extends Controller
         $postResponse = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/posts/' . $id);
+        ])->get(config('web-api.api_base_url') . '/editor/posts/' . $id);
 
         if (!$postResponse->successful()) {
             return redirect()->route('dashboard.web_curator.posts.index')
@@ -570,7 +570,7 @@ class PostController extends Controller
         unset($validated['tagged_entities']);
 
         $response = $this->buildMultipartApiRequest($request)
-            ->post(config('web-api.api_base_url') . '/posts/' . $id, array_merge(
+            ->post(config('web-api.api_base_url') . '/editor/posts/' . $id, array_merge(
                 $this->buildPostPayload($validated),
                 ['_method' => 'PUT']
             ));
@@ -622,7 +622,7 @@ class PostController extends Controller
         $response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->delete(config('web-api.api_base_url') . '/posts/' . $id);
+        ])->delete(config('web-api.api_base_url') . '/editor/posts/' . $id);
 
         if ($response->successful()) {
             return redirect()->route('dashboard.web_curator.posts.index')
