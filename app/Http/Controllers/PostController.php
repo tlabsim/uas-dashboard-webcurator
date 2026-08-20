@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use UasDashboard\WebCurator\Support\ContentPreviewSignature;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -141,22 +142,40 @@ class PostController extends Controller
 
     public function preview(Request $request, $id)
     {
-        $response = Http::withHeaders([
+        $entityId = $request->attributes->get('current_role_scope');
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ])->get(config('web-api.api_base_url') . '/editor/posts/' . $id);
+        ];
+
+        $response = Http::withHeaders($headers)
+            ->get(config('web-api.api_base_url') . '/editor/posts/' . $id);
 
         if (!$response->successful()) {
             abort($response->status() === 404 ? 404 : 502, 'Failed to load post preview.');
         }
 
-        $post = $response->json()['data'] ?? null;
+        $post = $response->json('data');
 
         if (!$post) {
             abort(404, 'Post not found.');
         }
 
-        return view('web_curator::posts.preview', compact('post'));
+        $profileResponse = Http::withHeaders($headers)
+            ->get(config('web-api.api_base_url') . '/entity/profile', ['entity_id' => $entityId]);
+
+        if (!$profileResponse->successful() || !$profileResponse->json('data.slug')) {
+            abort(502, 'Failed to resolve the entity website for this preview.');
+        }
+
+        $entitySlug = (string) $profileResponse->json('data.slug');
+        $expires = now()->addMinutes(max(1, (int) config('web_curator.content_preview.ttl_minutes', 15)))->timestamp;
+        $signature = ContentPreviewSignature::make($entitySlug, (int) $id, $expires);
+        $previewUrl = rtrim((string) config('web_curator.entity_web_base_url'), '/')
+            .'/'.rawurlencode($entitySlug).'/posts/'.(int) $id.'/preview?'
+            .http_build_query(['expires' => $expires, 'signature' => $signature]);
+
+        return redirect()->away($previewUrl);
     }
 
     public function store(Request $request)

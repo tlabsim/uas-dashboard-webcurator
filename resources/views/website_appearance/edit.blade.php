@@ -11,7 +11,20 @@
     $entityWebsiteUrl = $entitySlug
         ? ($entityWebBaseUrl !== '' ? $entityWebBaseUrl . '/' . ltrim($entitySlug, '/') : '/' . ltrim($entitySlug, '/'))
         : null;
+    $previewFontFamilies = collect($fontOptions)
+        ->flatten(1)
+        ->pluck('bunny_family')
+        ->filter()
+        ->unique()
+        ->implode('|');
 @endphp
+
+@push('styles')
+    @if ($previewFontFamilies !== '')
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family={{ urlencode($previewFontFamilies) }}" rel="stylesheet">
+    @endif
+@endpush
 
 @section('dashboard-content')
 <div
@@ -19,6 +32,7 @@
     x-data="websiteAppearanceForm({
         initial: @js($appearanceValues),
         entity: @js($entity),
+        imsLogo: @js(data_get($entity, 'cachedData.logo_url', data_get($entity, 'cached_data.logo_url'))),
         templates: @js($templates),
         fontOptions: @js($fontOptions),
         galleries: @js($galleries),
@@ -97,6 +111,65 @@
                                 <p class="mt-2 text-sm font-semibold text-[var(--text-strong)]" x-text="selectedTemplateLabel"></p>
                                 <p class="mt-1 text-sm text-[var(--text-soft)]" x-text="selectedTemplateDescription"></p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Entity Logos</h3>
+            </div>
+
+            <input type="hidden" name="website_logo_on_light" x-model="form.website_logo_on_light">
+            <input type="hidden" name="website_logo_on_dark" x-model="form.website_logo_on_dark">
+
+            <div class="grid gap-5 lg:grid-cols-2">
+                <div class="overflow-hidden rounded-2xl border border-[var(--border-soft)]">
+                    <div class="flex min-h-40 items-center justify-center bg-slate-50 p-6">
+                        <template x-if="logoPreview('website_logo_on_light')">
+                            <img :src="logoPreview('website_logo_on_light')" alt="Logo preview for light backgrounds" class="max-h-24 max-w-full object-contain">
+                        </template>
+                        <template x-if="!logoPreview('website_logo_on_light')">
+                            <p class="text-sm text-slate-500">No logo available</p>
+                        </template>
+                    </div>
+                    <div class="border-t border-[var(--border-soft)] bg-[var(--surface)] p-4">
+                        <div class="flex flex-wrap items-start justify-between gap-2">
+                            <div>
+                                <h4 class="font-semibold text-[var(--text-strong)]">For light backgrounds</h4>
+                                <p class="mt-1 text-xs text-[var(--text-soft)]" x-text="logoSourceLabel('website_logo_on_light')"></p>
+                            </div>
+                            <button type="button" class="text-sm font-medium text-[var(--accent)] hover:underline" x-show="hasLogoOverride('website_logo_on_light')" @click="clearLogo('website_logo_on_light')">Clear</button>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button type="button" class="btn-base btn-primary" @click="openLogoMediaPicker('website_logo_on_light', false)">Choose Image</button>
+                            <button type="button" class="btn-base btn-secondary" @click="openLogoMediaPicker('website_logo_on_light', true)">Upload Image</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-hidden rounded-2xl border border-[var(--border-soft)]">
+                    <div class="flex min-h-40 items-center justify-center bg-slate-900 p-6">
+                        <template x-if="logoPreview('website_logo_on_dark')">
+                            <img :src="logoPreview('website_logo_on_dark')" alt="Logo preview for dark backgrounds" class="max-h-24 max-w-full object-contain">
+                        </template>
+                        <template x-if="!logoPreview('website_logo_on_dark')">
+                            <p class="text-sm text-slate-400">No logo available</p>
+                        </template>
+                    </div>
+                    <div class="border-t border-[var(--border-soft)] bg-[var(--surface)] p-4">
+                        <div class="flex flex-wrap items-start justify-between gap-2">
+                            <div>
+                                <h4 class="font-semibold text-[var(--text-strong)]">For dark backgrounds</h4>
+                                <p class="mt-1 text-xs text-[var(--text-soft)]" x-text="logoSourceLabel('website_logo_on_dark')"></p>
+                            </div>
+                            <button type="button" class="text-sm font-medium text-[var(--accent)] hover:underline" x-show="hasLogoOverride('website_logo_on_dark')" @click="clearLogo('website_logo_on_dark')">Clear</button>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button type="button" class="btn-base btn-primary" @click="openLogoMediaPicker('website_logo_on_dark', false)">Choose Image</button>
+                            <button type="button" class="btn-base btn-secondary" @click="openLogoMediaPicker('website_logo_on_dark', true)">Upload Image</button>
                         </div>
                     </div>
                 </div>
@@ -437,6 +510,7 @@
 
         return {
             entity: config.entity || {},
+            imsLogo: String(config.imsLogo || '').trim(),
             templates: Array.isArray(config.templates) ? config.templates : [],
             fontOptions: config.fontOptions || {},
             galleries: Array.isArray(config.galleries) ? config.galleries : [],
@@ -454,6 +528,8 @@
                 default_serif_font: config.initial.default_serif_font || 'source-serif-4',
                 default_sans_font: config.initial.default_sans_font || 'source-sans-3',
                 featured_gallery_id: config.initial.featured_gallery_id ? String(config.initial.featured_gallery_id) : '',
+                website_logo_on_light: config.initial['website-logo-on-light'] || '',
+                website_logo_on_dark: config.initial['website-logo-on-dark'] || '',
                 website_hero_bg_type: config.initial['website-hero-bg-type'] || 'image',
                 website_hero_image: config.initial['website-hero-image'] || '',
                 website_hero_video: config.initial['website-hero-video'] || '',
@@ -466,6 +542,20 @@
 
             get hasHeroImage() {
                 return String(this.form.website_hero_image || '').trim() !== '';
+            },
+
+            hasLogoOverride(field) {
+                return String(this.form[field] || '').trim() !== '';
+            },
+
+            logoPreview(field) {
+                return String(this.form[field] || '').trim() || this.imsLogo;
+            },
+
+            logoSourceLabel(field) {
+                if (this.hasLogoOverride(field)) return 'Using website override';
+                if (this.imsLogo) return 'Using IMS logo';
+                return 'No logo configured';
             },
 
             get selectedTemplate() {
@@ -580,6 +670,28 @@
 
             clearHeroImage() {
                 this.form.website_hero_image = '';
+            },
+
+            clearLogo(field) {
+                this.form[field] = '';
+            },
+
+            async openLogoMediaPicker(field, preferUpload = false) {
+                const picker = window.WebCuratorMediaPicker;
+                if (!picker?.open) {
+                    return;
+                }
+
+                const item = await picker.open({
+                    title: field === 'website_logo_on_dark' ? 'Choose logo for dark backgrounds' : 'Choose logo for light backgrounds',
+                    mediaType: 'image',
+                    uploadContext: 'website-appearance',
+                    preferUpload,
+                });
+
+                if (item) {
+                    this.form[field] = item.full_url || item.public_url || '';
+                }
             },
 
             async openHeroMediaPicker(preferUpload = false) {
