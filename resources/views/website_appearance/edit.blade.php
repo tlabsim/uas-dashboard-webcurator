@@ -201,6 +201,15 @@
                             </div>
                             <input type="text" name="hero_subheading" id="hero_subheading" x-model="form.hero_subheading" class="input-base w-full" maxlength="255">
                         </div>
+                        <div>
+                            <label for="hero_subheading_position" class="label-base">Subtitle Position</label>
+                            <select name="hero_subheading_position" id="hero_subheading_position" x-model="form.hero_subheading_position" class="select-base w-full">
+                                <option value="auto">Automatic</option>
+                                <option value="above">Above title</option>
+                                <option value="below">Below title</option>
+                            </select>
+                            <p class="mt-1.5 text-xs text-[var(--text-soft)]">Automatic places it below when a logo is available.</p>
+                        </div>
                     </div>
 
                     <div>
@@ -327,7 +336,10 @@
                         <div class="absolute inset-0" :style="{ backgroundColor: heroOverlayRgba }"></div>
 
                         <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                            <template x-if="String(form.hero_subheading || '').trim() !== ''">
+                            <template x-if="logoPreview('website_logo_on_dark')">
+                                <img :src="logoPreview('website_logo_on_dark')" alt="" class="mb-4 max-h-14 max-w-24 object-contain">
+                            </template>
+                            <template x-if="hasSubtitle && effectiveSubtitlePosition === 'above'">
                                 <p
                                     class="text-sm font-semibold uppercase tracking-[0.22em]"
                                     :style="{ color: form.hero_subtitle_color, fontFamily: selectedSansFamily }"
@@ -336,10 +348,17 @@
                             </template>
                             <h4
                                 class="text-3xl font-semibold md:text-4xl"
-                                :class="String(form.hero_subheading || '').trim() !== '' ? 'mt-3' : ''"
+                                :class="hasSubtitle && effectiveSubtitlePosition === 'above' ? 'mt-3' : ''"
                                 :style="{ color: form.hero_title_color, fontFamily: selectedSerifFamily }"
                                 x-text="form.hero_title || defaults.hero_title"
                             ></h4>
+                            <template x-if="hasSubtitle && effectiveSubtitlePosition === 'below'">
+                                <p
+                                    class="mt-3 text-base italic"
+                                    :style="{ color: form.hero_subtitle_color, fontFamily: selectedSerifFamily }"
+                                    x-text="form.hero_subheading"
+                                ></p>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -520,6 +539,7 @@
                 template_key: config.initial.template_key || '',
                 hero_title: config.initial.hero_title || '',
                 hero_subheading: config.initial.hero_subheading || '',
+                hero_subheading_position: config.initial.hero_subheading_position || 'auto',
                 hero_summary: config.initial.hero_summary || '',
                 hero_overlay_hex: '#0f172a',
                 hero_overlay_alpha: 28,
@@ -542,6 +562,18 @@
 
             get hasHeroImage() {
                 return String(this.form.website_hero_image || '').trim() !== '';
+            },
+
+            get hasSubtitle() {
+                return String(this.form.hero_subheading || '').trim() !== '';
+            },
+
+            get effectiveSubtitlePosition() {
+                if (this.form.hero_subheading_position === 'above' || this.form.hero_subheading_position === 'below') {
+                    return this.form.hero_subheading_position;
+                }
+
+                return this.logoPreview('website_logo_on_dark') ? 'below' : 'above';
             },
 
             hasLogoOverride(field) {
