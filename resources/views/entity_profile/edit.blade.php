@@ -115,6 +115,23 @@
                         <code class="bg-gray-100 px-2 py-0.5 rounded">{{ config('web_curator.entity_web_base_url') }}/<span x-text="slugPreview"></span></code>
                     </p>
                 </div>
+
+                <div>
+                    <label for="entity_introduction" class="label-base">Entity Introduction</label>
+                    <textarea
+                        name="entity_introduction"
+                        id="entity_introduction"
+                        rows="4"
+                        maxlength="2000"
+                        class="textarea-base w-full"
+                        placeholder="Write a brief introduction to the entity"
+                        x-model="entityIntroduction"
+                    >{{ old('entity_introduction', $profile['entity_introduction'] ?? '') }}</textarea>
+                    <div class="mt-1 flex items-center justify-between gap-3 text-xs text-gray-500">
+                        <p>A concise introduction shown on the entity website.</p>
+                        <p class="shrink-0"><span x-text="entityIntroduction.length"></span> / 2,000</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -396,6 +413,7 @@ document.addEventListener('alpine:init', () => {
         // Form state
         loading: false,
         slugPreview: '{{ $profile["slug"] ?? "your-slug" }}',
+        entityIntroduction: @js(old('entity_introduction', $profile['entity_introduction'] ?? '')),
         
         // Personnel search
         searchQuery: '',

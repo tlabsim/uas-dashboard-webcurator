@@ -70,6 +70,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'establishment_date' => 'nullable|date',
+            'entity_introduction' => 'nullable|string|max:2000',
             'slug' => 'required|string|max:50|alpha_dash',
             'head_role_name' => 'nullable|string|max:240',
             'head_personnel_id' => 'nullable|string|max:26',
@@ -272,6 +273,7 @@ class ProfileController extends Controller
             'entity_category' => data_get($entity, 'category.category_name', data_get($entity, 'entity_category', data_get($payload, 'entity_category'))),
             'parent_entity_name' => data_get($entity, 'parent.entity_name', data_get($entity, 'parent_entity_name', data_get($payload, 'parent_entity_name'))),
             'establishment_date' => data_get($profile, 'establishment_date', data_get($payload, 'establishment_date')),
+            'entity_introduction' => data_get($profile, 'entity_introduction', data_get($payload, 'entity_introduction')),
             'slug' => data_get($profile, 'slug', data_get($payload, 'slug')),
             'head_personnel_id' => data_get($head, 'personnel_id', data_get($profile, 'head_personnel_id', data_get($payload, 'head_personnel_id'))),
             'head_role_assignment_id' => $roleAssignmentId,
