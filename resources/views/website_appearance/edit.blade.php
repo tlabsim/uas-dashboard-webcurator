@@ -108,6 +108,9 @@
                 <h3 class="card-title">Hero</h3>
             </div>
 
+            <input type="hidden" name="hero_overlay_color" :value="heroOverlayRgba">
+            <input type="hidden" name="website_hero_image" x-model="form.website_hero_image">
+
             <div class="grid gap-6 xl:grid-cols-2">
                 <div class="space-y-5">
                     <div class="grid gap-4 grid-cols-1">
@@ -138,12 +141,12 @@
                 </div>
 
                 <div class="space-y-5 self-start">
-                    <input type="hidden" name="hero_overlay_color" :value="heroOverlayRgba">
-                    <input type="hidden" name="website_hero_image" x-model="form.website_hero_image">
-
                     <div class="grid gap-4 grid-cols-1">
                         <div>
-                            <label for="website_hero_bg_type" class="label-base">Background</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="website_hero_bg_type" class="label-base mb-0">Background</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <select name="website_hero_bg_type" id="website_hero_bg_type" x-model="form.website_hero_bg_type" class="select-base w-full">
                                 <option value="image">Image</option>
                                 <option value="video">Video</option>
@@ -151,7 +154,10 @@
                         </div>
 
                         <div x-show="form.website_hero_bg_type === 'video'" x-cloak>
-                            <label for="website_hero_video" class="label-base">Video URL</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="website_hero_video" class="label-base mb-0">Video URL</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <input
                                 type="text"
                                 name="website_hero_video"
@@ -165,31 +171,49 @@
 
                     <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_7rem]">
                         <div>
-                            <label for="hero_overlay_hex" class="label-base">Overlay</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="hero_overlay_hex" class="label-base mb-0">Overlay</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <div class="mt-2 flex items-center gap-3">
-                                <input type="color" id="hero_overlay_hex" x-model="form.hero_overlay_hex" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                                <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                    <input type="color" id="hero_overlay_hex" x-model="form.hero_overlay_hex" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                                </div>
                                 <input type="text" x-model="form.hero_overlay_hex" class="input-base flex-1 font-mono text-sm" maxlength="7">
                             </div>
                         </div>
                         <div>
-                            <label for="hero_overlay_alpha" class="label-base">Opacity</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="hero_overlay_alpha" class="label-base mb-0">Opacity</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <input id="hero_overlay_alpha" type="number" min="0" max="100" step="1" x-model="form.hero_overlay_alpha" class="input-base w-full">
                         </div>
                     </div>
 
                     <div class="grid gap-4 md:grid-cols-2">
                         <div>
-                            <label for="hero_title_color" class="label-base">Title Color</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="hero_title_color" class="label-base mb-0">Title Color</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <div class="mt-2 flex items-center gap-3">
-                                <input type="color" name="hero_title_color" id="hero_title_color" x-model="form.hero_title_color" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                                <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                    <input type="color" name="hero_title_color" id="hero_title_color" x-model="form.hero_title_color" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                                </div>
                                 <input type="text" x-model="form.hero_title_color" class="input-base flex-1 font-mono text-sm" maxlength="7">
                             </div>
                         </div>
 
                         <div>
-                            <label for="hero_subtitle_color" class="label-base">Subtitle Color</label>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <label for="hero_subtitle_color" class="label-base mb-0">Subtitle Color</label>
+                                <span class="text-sm font-medium opacity-0 select-none">Reset</span>
+                            </div>
                             <div class="mt-2 flex items-center gap-3">
-                                <input type="color" name="hero_subtitle_color" id="hero_subtitle_color" x-model="form.hero_subtitle_color" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                                <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                    <input type="color" name="hero_subtitle_color" id="hero_subtitle_color" x-model="form.hero_subtitle_color" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                                </div>
                                 <input type="text" x-model="form.hero_subtitle_color" class="input-base flex-1 font-mono text-sm" maxlength="7">
                             </div>
                         </div>
@@ -259,7 +283,9 @@
                     <div>
                         <label for="accent" class="label-base">Accent</label>
                         <div class="mt-2 flex items-center gap-3">
-                            <input type="color" name="accent" id="accent" x-model="form.accent" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                            <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                <input type="color" name="accent" id="accent" x-model="form.accent" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                            </div>
                             <input type="text" x-model="form.accent" class="input-base flex-1 font-mono text-sm" maxlength="7">
                         </div>
                     </div>
@@ -267,7 +293,9 @@
                     <div>
                         <label for="accent_soft" class="label-base">Accent Soft</label>
                         <div class="mt-2 flex items-center gap-3">
-                            <input type="color" name="accent_soft" id="accent_soft" x-model="form.accent_soft" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                            <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                <input type="color" name="accent_soft" id="accent_soft" x-model="form.accent_soft" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                            </div>
                             <input type="text" x-model="form.accent_soft" class="input-base flex-1 font-mono text-sm" maxlength="7">
                         </div>
                     </div>
@@ -275,7 +303,9 @@
                     <div>
                         <label for="surface_tint" class="label-base">Surface Tint</label>
                         <div class="mt-2 flex items-center gap-3">
-                            <input type="color" name="surface_tint" id="surface_tint" x-model="form.surface_tint" class="h-11 w-11 cursor-pointer appearance-none rounded-full border border-white bg-transparent p-0 shadow-sm ring-1 ring-[var(--border-soft)]">
+                            <div class="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] shadow-sm" style="padding: 2px;">
+                                <input type="color" name="surface_tint" id="surface_tint" x-model="form.surface_tint" class="h-full w-full cursor-pointer border-0 bg-transparent p-0" style="appearance: none; -webkit-appearance: none; border-radius: 8px;">
+                            </div>
                             <input type="text" x-model="form.surface_tint" class="input-base flex-1 font-mono text-sm" maxlength="7">
                         </div>
                     </div>
