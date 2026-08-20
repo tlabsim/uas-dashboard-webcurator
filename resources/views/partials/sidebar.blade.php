@@ -49,12 +49,6 @@
             'label' => 'Site Structure',
         ],
         [
-            'label' => 'Categories & Menus',
-            'route' => 'dashboard.web_curator.menus.index',
-            'active' => ['dashboard.web_curator.menus.*'],
-            'icon' => 'menu',
-        ],
-        [
             'label' => 'Entity Profile',
             'route' => 'dashboard.web_curator.entity_profile.edit',
             'active' => ['dashboard.web_curator.entity_profile.*'],
@@ -65,6 +59,12 @@
             'route' => 'dashboard.web_curator.website_appearance.edit',
             'active' => ['dashboard.web_curator.website_appearance.*'],
             'icon' => 'website-appearance',
+        ],
+        [
+            'label' => 'Categories & Menus',
+            'route' => 'dashboard.web_curator.menus.index',
+            'active' => ['dashboard.web_curator.menus.*'],
+            'icon' => 'menu',
         ],
         [
             'label' => 'Entity Settings',
