@@ -43,6 +43,7 @@ class WebsiteAppearanceController extends Controller
 
     private const SECTION_ORDER = [
         'head_message' => 'Head Message',
+        'research' => 'Research',
         'news' => 'News',
         'notices' => 'Notices',
         'events' => 'Events & Activities',
@@ -328,12 +329,20 @@ class WebsiteAppearanceController extends Controller
         $decoded = json_decode($raw, true);
         $values = is_array($decoded) ? $decoded : array_map('trim', explode(',', $raw));
 
-        return collect($values)
+        $order = collect($values)
             ->filter(fn ($value) => array_key_exists($value, self::SECTION_ORDER))
-            ->merge(array_keys(self::SECTION_ORDER))
             ->unique()
-            ->values()
-            ->all();
+            ->values();
+
+        // Existing saved orders predate Research; insert it at its intended default position.
+        if (!$order->contains('research')) {
+            $newsIndex = $order->search('news');
+            $newsIndex === false
+                ? $order->push('research')
+                : $order->splice($newsIndex, 0, ['research']);
+        }
+
+        return $order->merge(array_keys(self::SECTION_ORDER))->unique()->values()->all();
     }
 
     protected function normalizeSectionState(string $raw): array

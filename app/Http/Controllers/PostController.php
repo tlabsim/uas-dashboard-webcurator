@@ -933,7 +933,7 @@ class PostController extends Controller
         $client = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ]);
+        ])->asMultipart();
 
         foreach ((array) $request->file('attachments', []) as $file) {
             if (!$file instanceof UploadedFile) {

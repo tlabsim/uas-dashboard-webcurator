@@ -275,7 +275,7 @@
                                 <template x-if="field.type === 'text' || field.type === 'string'">
                                     <input type="text" 
                                            :name="'metadata[' + field.key + ']'"
-                                           :value="existingMetadata[field.key] || ''"
+                                           x-model="metadataValues[field.key]"
                                            :required="field.required"
                                            :placeholder="field.help_text || ''"
                                            class="input-base">
@@ -332,7 +332,7 @@
                                 <template x-if="field.type === 'url'">
                                     <input type="url" 
                                            :name="'metadata[' + field.key + ']'"
-                                           :value="existingMetadata[field.key] || ''"
+                                           x-model="metadataValues[field.key]"
                                            :required="field.required"
                                            :placeholder="field.help_text || 'https://'"
                                            class="input-base">
@@ -429,7 +429,7 @@
                                 <template x-if="field.type === 'text' || field.type === 'string'">
                                     <input type="text" 
                                            :name="'metadata[' + field.key + ']'"
-                                           :value="existingMetadata[field.key] || ''"
+                                           x-model="metadataValues[field.key]"
                                            :placeholder="field.help_text || ''"
                                            class="input-base">
                                 </template>
@@ -480,7 +480,7 @@
                                 <template x-if="field.type === 'url'">
                                     <input type="url" 
                                            :name="'metadata[' + field.key + ']'"
-                                           :value="existingMetadata[field.key] || ''"
+                                           x-model="metadataValues[field.key]"
                                            :placeholder="field.help_text || 'https://'"
                                            class="input-base">
                                 </template>
@@ -877,6 +877,7 @@ document.addEventListener('alpine:init', () => {
         selectedPostStatus: '{{ old('post_status', $post['post_status'] ?? 'Draft') }}',
         categorySchema: null,
         existingMetadata: @json($post['organized_metadata'] ?? []),
+        metadataValues: {},
         isSubmitting: false,
 
         get isPublishedStatus() {
@@ -939,6 +940,8 @@ document.addEventListener('alpine:init', () => {
                     }
                     this.existingMetadata = flatMetadata;
                 }
+
+                this.metadataValues = { ...this.existingMetadata };
             }
             
             // Load schema if category is already selected
@@ -985,8 +988,8 @@ document.addEventListener('alpine:init', () => {
             });
             
             // Validate required metadata fields
-            if (this.categorySchema && this.categorySchema.required_fields) {
-                this.categorySchema.required_fields.forEach(field => {
+            if (this.categorySchema?.meta_schema?.required_fields) {
+                this.categorySchema.meta_schema.required_fields.forEach(field => {
                     const value = this.metadataValues[field.key];
                     
                     // Check if field is required and empty
@@ -995,7 +998,7 @@ document.addEventListener('alpine:init', () => {
                         errorMessages.push(`${field.label} is required`);
                         
                         // Highlight the field
-                        const fieldInput = form.querySelector(`[name="meta[${field.key}]"]`);
+                        const fieldInput = form.querySelector(`[name="metadata[${field.key}]"]`);
                         if (fieldInput) {
                             fieldInput.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                             setTimeout(() => {
@@ -1007,8 +1010,8 @@ document.addEventListener('alpine:init', () => {
             }
             
             // Also check extra fields if they have required flag
-            if (this.categorySchema && this.categorySchema.extra_fields) {
-                this.categorySchema.extra_fields.forEach(field => {
+            if (this.categorySchema?.meta_schema?.extra_fields) {
+                this.categorySchema.meta_schema.extra_fields.forEach(field => {
                     const value = this.metadataValues[field.key];
                     
                     if (field.required && (!value || value.toString().trim() === '')) {
@@ -1016,7 +1019,7 @@ document.addEventListener('alpine:init', () => {
                         errorMessages.push(`${field.label} is required`);
                         
                         // Highlight the field
-                        const fieldInput = form.querySelector(`[name="meta[${field.key}]"]`);
+                        const fieldInput = form.querySelector(`[name="metadata[${field.key}]"]`);
                         if (fieldInput) {
                             fieldInput.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                             setTimeout(() => {
