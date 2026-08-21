@@ -2,6 +2,7 @@
 
 namespace UasDashboard\WebCurator\Concerns;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,7 +16,12 @@ trait InteractsWithWebApi
         return Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $request->cookie('ims_access_token'),
-        ]);
+        ])
+            ->connectTimeout(3)
+            ->timeout((int) config('web-api.timeout', 10))
+            ->retry(2, 150, fn (\Throwable $exception, PendingRequest $pendingRequest, ?string $method) =>
+                $method === 'GET' && $exception instanceof ConnectionException
+            );
     }
 
     protected function webApiUrl(string $path): string

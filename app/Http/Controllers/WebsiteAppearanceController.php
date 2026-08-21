@@ -43,6 +43,7 @@ class WebsiteAppearanceController extends Controller
 
     private const SECTION_ORDER = [
         'head_message' => 'Head Message',
+        'academic_programs' => 'Academic Programs',
         'research' => 'Research',
         'news' => 'News',
         'notices' => 'Notices',
@@ -334,12 +335,19 @@ class WebsiteAppearanceController extends Controller
             ->unique()
             ->values();
 
-        // Existing saved orders predate Research; insert it at its intended default position.
+        // Existing saved orders predate these sections; insert them at their defaults.
         if (!$order->contains('research')) {
             $newsIndex = $order->search('news');
             $newsIndex === false
                 ? $order->push('research')
                 : $order->splice($newsIndex, 0, ['research']);
+        }
+
+        if (!$order->contains('academic_programs')) {
+            $researchIndex = $order->search('research');
+            $researchIndex === false
+                ? $order->push('academic_programs')
+                : $order->splice($researchIndex, 0, ['academic_programs']);
         }
 
         return $order->merge(array_keys(self::SECTION_ORDER))->unique()->values()->all();

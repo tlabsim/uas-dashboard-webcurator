@@ -11,6 +11,7 @@ use UasDashboard\WebCurator\Http\Controllers\SettingController;
 use UasDashboard\WebCurator\Http\Controllers\WebsiteAppearanceController;
 use UasDashboard\WebCurator\Http\Controllers\MediaController;
 use UasDashboard\WebCurator\Http\Controllers\GalleryController;
+use UasDashboard\WebCurator\Http\Controllers\ProgramController;
 
 Route::middleware([
         'web',
@@ -78,6 +79,12 @@ Route::middleware([
         Route::get('/galleries/{id}/edit', [GalleryController::class, 'edit'])->name('galleries.edit');
         Route::put('/galleries/{id}', [GalleryController::class, 'update'])->name('galleries.update');
         Route::delete('/galleries/{id}', [GalleryController::class, 'destroy'])->name('galleries.destroy');
+
+        // Academic programs: canonical data from IMS, website presentation from Web API.
+        Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
+        Route::get('/programs/{programId}/edit', [ProgramController::class, 'edit'])->name('programs.edit');
+        Route::put('/programs/{programId}', [ProgramController::class, 'update'])->name('programs.update');
+        Route::delete('/programs/{programId}', [ProgramController::class, 'destroy'])->name('programs.destroy');
 
         // Categories & Menus
         Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');

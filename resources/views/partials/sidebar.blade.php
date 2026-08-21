@@ -1,4 +1,11 @@
 @php
+    $currentRoleId = session('ims_user.current_db_role_id', null);
+    $allRoles = collect(session('ims_user.db_roles', []));
+    $currentRole = $allRoles->firstWhere('assignment_id', $currentRoleId);
+    $currentEntityId = $currentRole['scope_entity_id'] ?? null;
+    $currentEntityName = $currentRole['scope_entity_name'] ?? null;
+    $hasPrograms = (bool) data_get($webCuratorEntityCapabilities ?? [], 'programs', false);
+
     $navItems = [
         [
             'label' => 'Home',
@@ -29,6 +36,12 @@
                 ['label' => 'Add New', 'route' => 'dashboard.web_curator.posts.create', 'active' => ['dashboard.web_curator.posts.create']],
             ],
         ],
+        ...($hasPrograms ? [[
+            'label' => 'Programs',
+            'route' => 'dashboard.web_curator.programs.index',
+            'active' => ['dashboard.web_curator.programs.*'],
+            'icon' => 'academic-program',
+        ]] : []),
         [
             'label' => 'Snippets',
             'icon' => 'snippet',
@@ -73,13 +86,6 @@
             'icon' => 'settings',
         ],
     ];
-@endphp
-
-@php
-    $currentRoleId = session('ims_user.current_db_role_id', null);
-    $allRoles = collect(session('ims_user.db_roles', []));
-    $currentRole = $allRoles->firstWhere('assignment_id', $currentRoleId);
-    $currentEntityName = $currentRole['scope_entity_name'] ?? null;
 @endphp
 
 <div class="dashboard-sidebar-panel">

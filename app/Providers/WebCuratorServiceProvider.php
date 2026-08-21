@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
 use UasDashboard\WebCurator\View\Components\CategoryBox;
 use UasDashboard\WebCurator\View\Components\SubcategoryBox;
+use UasDashboard\WebCurator\Services\EntityCapabilityResolver;
 
 class WebCuratorServiceProvider extends ServiceProvider implements DashboardModule
 {
@@ -176,5 +177,21 @@ class WebCuratorServiceProvider extends ServiceProvider implements DashboardModu
             'primary' => in_array($primaryEditor, self::PRIMARY_EDITORS, true) ? $primaryEditor : 'tiptap',
             'visual' => in_array($visualEditor, self::VISUAL_EDITORS, true) ? $visualEditor : 'grapesjs',
         ]);
+
+        ViewFacade::composer('web_curator::partials.sidebar', function ($view) {
+            $request = request();
+            $entityId = (int) ($request->attributes->get('current_role_scope') ?: 0);
+
+            if (!$entityId) {
+                $currentRoleId = session('ims_user.current_db_role_id');
+                $currentRole = collect(session('ims_user.db_roles', []))->firstWhere('assignment_id', $currentRoleId);
+                $entityId = (int) ($currentRole['scope_entity_id'] ?? 0);
+            }
+
+            $view->with(
+                'webCuratorEntityCapabilities',
+                app(EntityCapabilityResolver::class)->resolve($entityId ?: null, $request->cookie('ims_access_token'))
+            );
+        });
     }
 }

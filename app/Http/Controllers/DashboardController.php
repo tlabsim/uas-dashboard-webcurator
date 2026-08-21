@@ -59,6 +59,8 @@ class DashboardController extends Controller
 
             if ($response->successful()) {
                 $entityInfo = $response->json()['data'] ?? null;
+                $isAcademic = strcasecmp((string) data_get($entityInfo, 'entity_category'), 'Academic') === 0;
+                session()->put("web_curator_entity_capabilities.{$entityId}.programs", $isAcademic);
             }
 
             // Get all pages
