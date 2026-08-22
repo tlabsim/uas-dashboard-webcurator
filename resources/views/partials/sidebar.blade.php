@@ -37,7 +37,7 @@
             ],
         ],
         ...($hasPrograms ? [[
-            'label' => 'Programs',
+            'label' => 'Academic Programs',
             'route' => 'dashboard.web_curator.programs.index',
             'active' => ['dashboard.web_curator.programs.*'],
             'icon' => 'academic-program',
